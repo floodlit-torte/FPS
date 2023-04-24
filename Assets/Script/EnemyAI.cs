@@ -16,12 +16,17 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
+        ChaseTarget();
+    }
+
+    private void ChaseTarget()
+    {
         _distanceToTarget = Vector3.Distance(transform.position, target.position);
 
-        if(_distanceToTarget < chaseRange)
+        if (_distanceToTarget < chaseRange)
         {
             _agent.SetDestination(target.position);
-        }    
+        }
     }
 
 #if UNITY_EDITOR
