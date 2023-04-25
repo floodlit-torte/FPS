@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -5,6 +6,7 @@ public class EnemyAI : MonoBehaviour
 {
     [SerializeField] private Transform target;
     [SerializeField] private float chaseRange = 5f;
+    [SerializeField] private Animator animator;
 
     private NavMeshAgent _agent;
     private float _distanceToTarget;
@@ -18,6 +20,18 @@ public class EnemyAI : MonoBehaviour
     {
         ChaseTarget();
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        AttackTarget();
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        AttackTarget();
+    }
+    private void AttackTarget()
+    {
+        animator.SetTrigger("isAttacking");
+    }
 
     private void ChaseTarget()
     {
@@ -26,6 +40,11 @@ public class EnemyAI : MonoBehaviour
         if (_distanceToTarget < chaseRange)
         {
             _agent.SetDestination(target.position);
+            animator.SetBool("isRunning", true);
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
         }
     }
 
